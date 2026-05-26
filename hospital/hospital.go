@@ -11,19 +11,19 @@ type Paciente struct {
   antiguedad int
 }
 
-type Doctor struct {
+type Medico struct {
   nombre       string
   especialidad *Especialidad
 }
 
 type Especialidad struct {
-  nombre             string
-  pacientesUrgentes  cola.Cola[*Paciente]
-  pacientesRegulares cola_prioridad.ColaPrioridad[*Paciente]
+  nombre          string
+  turnosUrgentes  cola.Cola[*Paciente]
+  turnosRegulares cola_prioridad.ColaPrioridad[*Paciente]
 }
 
-type Clinica struct {
+type Hospital struct {
   pacientes      diccionario.Diccionario[string, *Paciente]
   especialidades diccionario.Diccionario[string, *Especialidad]
-  doctores       diccionario.DiccionarioOrdenado[string, *Doctor]
+  medicos        diccionario.DiccionarioOrdenado[string, *Medico]
 }
