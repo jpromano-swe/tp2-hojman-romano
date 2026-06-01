@@ -14,7 +14,6 @@ const (
 	_ERROR_ITERADOR_HASH  = "El iterador termino de iterar"
 	_ERROR_CLAVE_INVALIDA = "La clave no pertenece al diccionario"
 )
-
 type estadoDeCelda = int
 
 type tablaDeHash[K comparable, V any] struct {

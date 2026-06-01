@@ -4,11 +4,13 @@ import (
   "tdas/tdas/cola"
   "tdas/tdas/cola_prioridad"
   "tdas/tdas/diccionario"
+
 )
 
 type Paciente struct {
   nombre     string
   antiguedad int
+  urgencia string
 }
 
 type Medico struct {
@@ -27,3 +29,4 @@ type Hospital struct {
   especialidades diccionario.Diccionario[string, *Especialidad]
   medicos        diccionario.DiccionarioOrdenado[string, *Medico]
 }
+
