@@ -2,7 +2,7 @@ package diccionario_test
 
 import (
 	"fmt"
-	TDADiccionario "tdas/tdas/diccionario"
+	TDADiccionario "tp2/tdas/diccionario"
 	"testing"
 
 	"github.com/stretchr/testify/require"

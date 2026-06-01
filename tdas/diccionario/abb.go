@@ -1,6 +1,6 @@
 package diccionario
 
-import TDAPila "/tdas/pila"
+import TDAPila "tp2/tdas/pila"
 
 const (
 	_ERROR_ITERADOR           = "El iterador termino de iterar"

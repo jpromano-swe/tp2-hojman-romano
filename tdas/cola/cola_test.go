@@ -1,7 +1,7 @@
 package cola_test
 
 import (
-	TDACola "tdas/tdas/cola"
+	TDACola "tp2/tdas/cola"
 	"testing"
 
 	"github.com/stretchr/testify/require"

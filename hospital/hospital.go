@@ -4,9 +4,9 @@ import (
   "bufio"
   "os"
   "strings"
-  "tdas/tdas/cola"
-  "tdas/tdas/cola_prioridad"
-  "tdas/tdas/diccionario"
+  "tp2/tdas/cola"
+  "tp2/tdas/cola_prioridad"
+  "tp2/tdas/diccionario"
 )
 
 type Paciente struct {
@@ -67,7 +67,7 @@ func CrearDiccionarioEspecialidades() diccionario.Diccionario[string, *Especiali
 
 func crearArbolMedicos(archivo string, especialidades diccionario.Diccionario[string, *Especialidad]) diccionario.DiccionarioOrdenado[string, *Medico] {
   arbol := diccionario.CrearABB[string, *Medico](strings.Compare)
-  aperturaArchivo, _ := os.Open(archivo)
+  aperturaArchivo, _ := os.Open(archivo) //REFACTOR: ABORTAR POR ERROR
   defer aperturaArchivo.Close()
 
   scanner := bufio.NewScanner(aperturaArchivo)
@@ -75,16 +75,18 @@ func crearArbolMedicos(archivo string, especialidades diccionario.Diccionario[st
   for scanner.Scan() {
     linea := scanner.Text()
     arregloDatos := strings.Split(linea, ",")
-    if especialidades.Pertenece(arregloDatos[1]) {
-      nuevaEspecialidad := especialidades.Obtener(arregloDatos[1])
-      nuevoMedico := crearMedico(arregloDatos[0], nuevaEspecialidad)
-      arbol.Guardar(nuevoMedico.nombre, nuevoMedico)
+    nombreMedico := strings.TrimSpace(arregloDatos[0])
+    especialidadMedico := strings.TrimSpace(arregloDatos[1])
+    var nuevaEspecialidad *Especialidad //REFACTOR
+
+    if especialidades.Pertenece(especialidadMedico) {
+      nuevaEspecialidad = especialidades.Obtener(especialidadMedico)
     } else {
-      nuevaEspecialidad := crearEspecialidad(arregloDatos[1])
-      especialidades.Guardar(nuevaEspecialidad.nombre, nuevaEspecialidad)
-      nuevoMedico := crearMedico(arregloDatos[0], nuevaEspecialidad)
-      arbol.Guardar(nuevoMedico.nombre, nuevoMedico)
+      nuevaEspecialidad = crearEspecialidad(especialidadMedico)
+      especialidades.Guardar(especialidadMedico, nuevaEspecialidad)
     }
+    nuevoMedico := crearMedico(nombreMedico, nuevaEspecialidad)
+    arbol.Guardar(nuevoMedico.nombre, nuevoMedico)
   }
   return arbol
 }
