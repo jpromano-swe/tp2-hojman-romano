@@ -19,9 +19,9 @@ type Medico struct {
 }
 
 type Especialidad struct {
-  nombre          string
-  turnosUrgentes  cola.Cola[*Paciente]
-  turnosRegulares cola_prioridad.ColaPrioridad[*Paciente]
+  Nombre          string
+  TurnosUrgentes  cola.Cola[*Paciente]
+  TurnosRegulares cola_prioridad.ColaPrioridad[*Paciente]
 }
 
 type Hospital struct {
