@@ -11,22 +11,22 @@ func chequearIngresoTurnos(datos string, hospital *Hospital) {
 	nombre := partes[0]
 	especialidad := partes[1]
 	urgencia := partes[2]
-	if hospital.pacientes.Pertenece(nombre) {
+	if !hospital.pacientes.Pertenece(nombre) {
 		fmt.Printf(mensajes.ENOENT_PACIENTE, nombre)
-		panic("Panic")
+		return
 
 	}
-	if hospital.especialidades.Pertenece(especialidad) {
+	if !hospital.especialidades.Pertenece(especialidad) {
 		fmt.Printf(mensajes.ENOENT_ESPECIALIDAD, especialidad)
-		panic("Panic")
+		return
 
 	}
 	if urgencia != "REGULAR" && urgencia != "URGENTE" {
 		fmt.Printf(mensajes.ENOENT_URGENCIA, especialidad)
-		panic("Panic")
+		return
 
 	}
-	asignarTurnos(hospital.pacientes.Obtener(nombre), hospital.especialidades.Obtener(nombre), urgencia)
+	asignarTurnos(hospital.pacientes.Obtener(nombre), hospital.especialidades.Obtener(especialidad), urgencia)
 }
 
 func chequearIngresoMedicos(nombre string, hospital *Hospital) {
@@ -34,7 +34,7 @@ func chequearIngresoMedicos(nombre string, hospital *Hospital) {
 		sigTurno(hospital.medicos.Obtener(nombre))
 	} else {
 		fmt.Printf(mensajes.ENOENT_DOCTOR, nombre)
-		panic("Panic")
+		return
 	}
 }
 

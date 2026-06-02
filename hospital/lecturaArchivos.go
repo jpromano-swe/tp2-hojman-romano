@@ -16,7 +16,7 @@ func abrirArchivoCSV(archivo string) *os.File {
 	return datos
 }
 
-func hashearDatosCSV(csvReader *csv.Reader) diccionario.Diccionario[string,*Paciente]{
+func hashearDatosCSV(csvReader *csv.Reader) diccionario.Diccionario[string, *Paciente] {
 	pacientes := diccionario.CrearHash[string, *Paciente]()
 	for {
 		rec, err := csvReader.Read()
@@ -30,14 +30,14 @@ func hashearDatosCSV(csvReader *csv.Reader) diccionario.Diccionario[string,*Paci
 		if err != nil {
 			panic("El valor de la columna no es un número válido: " + rec[1])
 		}
-		paciente:=crearPaciente(rec[0],edadInt)
+		paciente := crearPaciente(rec[0], edadInt)
 		pacientes.Guardar(rec[0], paciente)
 	}
 	return pacientes
 }
 
 // a la q llamamos es a esta
-func obtenerDatosCSV(archivo string) diccionario.Diccionario[string,*Paciente] {
+func obtenerDatosCSV(archivo string) diccionario.Diccionario[string, *Paciente] {
 	datos := abrirArchivoCSV(archivo)
 	defer datos.Close()
 	csvReader := csv.NewReader(datos)
