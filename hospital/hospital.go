@@ -9,7 +9,6 @@ import (
   "tp2/tdas/diccionario"
 )
 
-
 type Paciente struct {
   nombre     string
   antiguedad int
@@ -46,50 +45,38 @@ func crearHospital(archivoDoctores string, archivoPacientes string) *Hospital {
   }
 }
 
-
 //Turnos
 
-
-func crearDiccionarioPacientes(archivo string) diccionario.Diccionario[string,*Paciente]{
+func crearDiccionarioPacientes(archivo string) diccionario.Diccionario[string, *Paciente] {
   return obtenerDatosCSV(archivo)
 }
 
-/*func crearEspecialidad(nombre string, funcion_cmp func(*Paciente, *Paciente) int ) *Especialidad {
-  urgentes,regulares:= crearColasTurnos(funcion_cmp)
-  return &Especialidad{
-    nombre:          nombre,
-    turnosUrgentes: urgentes,
-    turnosRegulares: regulares,
-  }
-} *///Creo que conviene hacer esto, asi no tenemos que estar pasando la funcion comparar por todos lados
-
-
-
-//Especialidad
+func compararPacientesPorAntiguedad(PacienteUno, PacienteDos *Paciente) int {
+  return PacienteDos.antiguedad - PacienteUno.antiguedad
+}
 
 func crearEspecialidad(nombre string) *Especialidad {
+  urgentes, regulares := crearColasTurnos(compararPacientesPorAntiguedad)
   return &Especialidad{
     nombre:          nombre,
-    turnosUrgentes: nil,
-    turnosRegulares: nil,
+    turnosUrgentes:  urgentes,
+    turnosRegulares: regulares,
   }
 }
 
-func crearPaciente(nombre string, antiguedad int) *Paciente{
+func crearPaciente(nombre string, antiguedad int) *Paciente {
   return &Paciente{
-    nombre: nombre,
+    nombre:     nombre,
     antiguedad: antiguedad,
-    urgencia: "",
+    urgencia:   "",
   }
 }
-
 
 func CrearDiccionarioEspecialidades() diccionario.Diccionario[string, *Especialidad] {
   return diccionario.CrearHash[string, *Especialidad]()
 }
 
-
-//Medico
+// Medico
 func crearMedico(nombre string, especialidad *Especialidad) *Medico {
   return &Medico{
     nombre:             nombre,

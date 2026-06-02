@@ -1,9 +1,11 @@
 package hospital
+
 import (
 	"fmt"
-	"tp2/mensajes"
 	"strings"
+	"tp2/mensajes"
 )
+
 func chequearIngresoTurnos(datos string, hospital *Hospital) {
 	partes := strings.Split(datos, ",")
 	nombre := partes[0]
@@ -11,27 +13,52 @@ func chequearIngresoTurnos(datos string, hospital *Hospital) {
 	urgencia := partes[2]
 	if hospital.pacientes.Pertenece(nombre) {
 		fmt.Printf(mensajes.ENOENT_PACIENTE, nombre)
-			panic("Panic")
+		panic("Panic")
 
 	}
 	if hospital.especialidades.Pertenece(especialidad) {
 		fmt.Printf(mensajes.ENOENT_ESPECIALIDAD, especialidad)
-			panic("Panic")
+		panic("Panic")
 
 	}
 	if urgencia != "REGULAR" && urgencia != "URGENTE" {
 		fmt.Printf(mensajes.ENOENT_URGENCIA, especialidad)
-			panic("Panic")
+		panic("Panic")
 
 	}
-	asignarTurnos(hospital.pacientes.Obtener(nombre),hospital.especialidades.Obtener(nombre),urgencia)
+	asignarTurnos(hospital.pacientes.Obtener(nombre), hospital.especialidades.Obtener(nombre), urgencia)
 }
 
-func chequearIngresoMedicos(nombre string, hospital *Hospital){
-	if hospital.medicos.Pertenece(nombre){
+func chequearIngresoMedicos(nombre string, hospital *Hospital) {
+	if hospital.medicos.Pertenece(nombre) {
 		sigTurno(hospital.medicos.Obtener(nombre))
-	}else{
+	} else {
 		fmt.Printf(mensajes.ENOENT_DOCTOR, nombre)
 		panic("Panic")
 	}
+}
+
+func chequearIngresoInforme(datos string, hospital *Hospital) {
+	partes := strings.Split(datos, ",")
+
+	if len(partes) != 2 {
+		fmt.Printf(mensajes.ENOENT_PARAMS, "INFORME")
+		return
+	}
+
+	inicioTexto := partes[0]
+	finTexto := partes[1]
+
+	var inicio *string
+	var fin *string
+
+	if inicioTexto != "" {
+		inicio = &inicioTexto
+	}
+
+	if finTexto != "" {
+		fin = &finTexto
+	}
+
+	crearInforme(hospital.medicos, inicio, fin)
 }
