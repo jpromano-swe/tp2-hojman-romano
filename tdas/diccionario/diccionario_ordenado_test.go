@@ -3,8 +3,8 @@ package diccionario_test
 import (
 	"fmt"
 	"strings"
-	TDADiccionario "tp2/tdas/diccionario"
 	"testing"
+	TDADiccionario "tp2/tdas/diccionario"
 
 	"github.com/stretchr/testify/require"
 )
