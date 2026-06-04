@@ -1,11 +1,8 @@
 package hospital
 
 import (
-	"encoding/csv"
-	"io"
+	"bufio"
 	"os"
-	"strconv"
-	"tp2/tdas/diccionario"
 )
 
 func abrirArchivoCSV(archivo string) *os.File {
@@ -15,6 +12,24 @@ func abrirArchivoCSV(archivo string) *os.File {
 	}
 	return datos
 }
+
+func leerLineasArchivo(archivo string) []string {
+	datos := abrirArchivoCSV(archivo)
+	defer datos.Close()
+
+	var lineas []string
+	scanner := bufio.NewScanner(datos)
+
+	for scanner.Scan() {
+		lineas = append(lineas, scanner.Text())
+	}
+	if scanner.Err() != nil {
+		panic("Error al leer el archivo")
+	}
+	return lineas
+}
+
+/* REFACTOR: Habria que borrar eso antes de entregar si estas de acuerdo con el refactor
 
 func hashearDatosCSV(csvReader *csv.Reader) diccionario.Diccionario[string, *Paciente] {
 	pacientes := diccionario.CrearHash[string, *Paciente]()
@@ -43,3 +58,5 @@ func obtenerDatosCSV(archivo string) diccionario.Diccionario[string, *Paciente] 
 	csvReader := csv.NewReader(datos)
 	return hashearDatosCSV(csvReader)
 }
+
+*/
