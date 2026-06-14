@@ -16,8 +16,5 @@ func main() {
 
 	clinica := hospital.CrearHospital(os.Args[1], os.Args[2])
 	scanner := bufio.NewScanner(os.Stdin)
-
-	for scanner.Scan() {
-		hospital.AsignarComando(scanner.Text(), clinica)
-	}
+	procesarEntrada(clinica, scanner)
 }

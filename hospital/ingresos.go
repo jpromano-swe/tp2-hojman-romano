@@ -6,44 +6,38 @@ import (
 	"tp2/mensajes"
 )
 
-func chequearIngresoTurnos(datos string, hospital *Hospital) {
+func (hospital *Hospital) ChequearIngresoTurnos(datos string) string {
 	partes := strings.Split(datos, ",")
 	nombre := partes[0]
 	especialidad := partes[1]
 	urgencia := partes[2]
 	if !hospital.pacientes.Pertenece(nombre) {
-		fmt.Printf(mensajes.ENOENT_PACIENTE, nombre)
-		return
+		return fmt.Sprintf(mensajes.ENOENT_PACIENTE, nombre)
 
 	}
 	if !hospital.especialidades.Pertenece(especialidad) {
-		fmt.Printf(mensajes.ENOENT_ESPECIALIDAD, especialidad)
-		return
+		return fmt.Sprintf(mensajes.ENOENT_ESPECIALIDAD, especialidad)
 
 	}
-	if urgencia != "REGULAR" && urgencia != "URGENTE" {
-		fmt.Printf(mensajes.ENOENT_URGENCIA, especialidad)
-		return
+	if urgencia != TURNO_REGULAR && urgencia != TURNO_URGENTE {
+		return fmt.Sprintf(mensajes.ENOENT_URGENCIA, especialidad)
 
 	}
-	asignarTurnos(hospital.pacientes.Obtener(nombre), hospital.especialidades.Obtener(especialidad), urgencia)
+	return asignarTurnos(hospital.pacientes.Obtener(nombre), hospital.especialidades.Obtener(especialidad), urgencia)
 }
 
-func chequearIngresoMedicos(nombre string, hospital *Hospital) {
-	if hospital.medicos.Pertenece(nombre) {
-		sigTurno(hospital.medicos.Obtener(nombre))
-	} else {
-		fmt.Printf(mensajes.ENOENT_DOCTOR, nombre)
-		return
+func (hospital *Hospital) ChequearIngresoMedicos(nombre string) string {
+	if !hospital.medicos.Pertenece(nombre) {
+		return fmt.Sprintf(mensajes.ENOENT_DOCTOR, nombre)
 	}
+	return sigTurno(hospital.medicos.Obtener(nombre))
 }
 
-func chequearIngresoInforme(datos string, hospital *Hospital) {
+func (hospital *Hospital) ChequearIngresoInforme(datos string) string {
 	partes := strings.Split(datos, ",")
 
 	if len(partes) != 2 {
-		fmt.Printf(mensajes.ENOENT_PARAMS, "INFORME")
-		return
+		return fmt.Sprintf(mensajes.ENOENT_PARAMS, COMANDO_INFORME)
 	}
 
 	inicioTexto := partes[0]
@@ -60,5 +54,5 @@ func chequearIngresoInforme(datos string, hospital *Hospital) {
 		fin = &finTexto
 	}
 
-	crearInforme(hospital.medicos, inicio, fin)
+	return crearInforme(hospital.medicos, inicio, fin)
 }

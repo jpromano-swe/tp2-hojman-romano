@@ -6,7 +6,7 @@ import (
 	"tp2/tdas/diccionario"
 )
 
-func crearInforme(arbol diccionario.DiccionarioOrdenado[string, *Medico], inicio, fin *string) {
+func crearInforme(arbol diccionario.DiccionarioOrdenado[string, *Medico], inicio, fin *string) string {
 	cantidadMedicos := 0
 
 	arbol.IterarRango(inicio, fin, func(nombreMedico string, medico *Medico) bool {
@@ -14,13 +14,14 @@ func crearInforme(arbol diccionario.DiccionarioOrdenado[string, *Medico], inicio
 		return true
 	})
 
-	fmt.Printf(mensajes.DOCTORES_SISTEMA, cantidadMedicos)
+	salida := fmt.Sprintf(mensajes.DOCTORES_SISTEMA, cantidadMedicos)
 
 	posicion := 1
 
 	arbol.IterarRango(inicio, fin, func(nombreMedico string, medico *Medico) bool {
-		fmt.Printf(mensajes.INFORME_DOCTOR, posicion, nombreMedico, medico.especialidad.nombre, medico.pacientesAtendidos)
+		salida += fmt.Sprintf(mensajes.INFORME_DOCTOR, posicion, nombreMedico, medico.especialidad.nombre, medico.pacientesAtendidos)
 		posicion++
 		return true
 	})
+	return salida
 }
